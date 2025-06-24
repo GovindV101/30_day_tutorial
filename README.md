@@ -7,4 +7,6 @@ Litmus7 30 day tutorial
 - Added assignment 2
 - Accommodated the changes given, updated the naming convention based on the Connect, dropped some indexes for better performance, added some attributes for status, added constraints and default values where required.
 - Added assignment 3
+- Added assignment 4
+- Added assignment 4(Upgraded)
 
