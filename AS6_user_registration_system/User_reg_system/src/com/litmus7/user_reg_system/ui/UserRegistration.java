@@ -3,6 +3,7 @@ package com.litmus7.user_reg_system.ui;
 import com.litmus7.user_reg_system.controller.UserController;
 import com.litmus7.user_reg_system.dto.UserDTO;
 import com.litmus7.user_reg_system.util.DBConnection;
+import com.litmus7.user_reg_system.util.Response;
 
 import java.util.Scanner;
 
@@ -36,17 +37,14 @@ public class UserRegistration {
 			System.out.print("Enter password: ");
 			String password = scanner.nextLine().trim();
 
-			String result = userController.registerUser(username, age, email, password);
-			System.out.println(result);
+			Response<UserDTO> response = userController.registerUser(username, age, email, password);
+			System.out.println(response.getMessage());
 
-			if (result.equals("Registration successful!")) {
-				UserDTO user = userController.getUser(username);
-				if (user != null) {
-					System.out.println();
-					user.displayDetails();
-				}
+			if (response.isSuccess()) {
+				System.out.println("\nUser Details:");
+				response.getData().displayDetails();
 			} else {
-				System.out.println("Registration failed.");
+				System.out.println("Registration failed. Error Code: " + response.getErrorCode());
 			}
 
 		} catch (NumberFormatException e) {
