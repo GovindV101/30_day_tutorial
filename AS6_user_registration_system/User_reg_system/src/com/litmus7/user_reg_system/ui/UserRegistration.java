@@ -41,7 +41,6 @@ public class UserRegistration {
 			System.out.println(response.getMessage());
 
 			if (response.isSuccess()) {
-				System.out.println("\nUser Details:");
 				response.getData().displayDetails();
 			} else {
 				System.out.println("Registration failed. Error Code: " + response.getErrorCode());
@@ -60,10 +59,5 @@ public class UserRegistration {
 		if (scanner != null) {
 			scanner.close();
 		}
-	}
-
-	public static void main(String[] args) {
-		UserRegistration registration = new UserRegistration();
-		registration.startRegistration();
 	}
 }
