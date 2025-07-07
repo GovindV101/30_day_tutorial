@@ -3,6 +3,7 @@ package com.litmus7.user_reg_system.controller;
 import com.litmus7.user_reg_system.dto.*;
 import com.litmus7.user_reg_system.service.*;
 import com.litmus7.user_reg_system.exception.*;
+import com.litmus7.user_reg_system.util.*;
 
 public class UserController {
 	private final UserService userService;
@@ -11,32 +12,37 @@ public class UserController {
 		this.userService = new UserServiceImplementation();
 	}
 
-	public String registerUser(String username, int age, String email, String password) {
+	public Response<UserDTO> registerUser(String username, int age, String email, String password) {
 		try {
 			UserDTO user = new UserDTO(username, age, email, password);
 			userService.registerUser(user);
-			return "Registration successful!";
+			UserDTO savedUser = userService.getUser(username); // fetch user after successful registration
+			return Response.success("Registration successful!", savedUser);
 		} catch (InvalidAgeException e) {
-			return "Error: " + e.getMessage();
+			return Response.error(e.getMessage(), "INVALID_AGE");
 		} catch (InvalidEmailException e) {
-			return "Error: " + e.getMessage();
+			return Response.error(e.getMessage(), "INVALID_EMAIL");
 		} catch (WeakPasswordException e) {
-			return "Error: " + e.getMessage();
+			return Response.error(e.getMessage(), "WEAK_PASSWORD");
 		} catch (DuplicateUsernameException e) {
-			return "Error: " + e.getMessage();
+			return Response.error(e.getMessage(), "DUPLICATE_USERNAME");
 		} catch (DatabaseException e) {
-			return "Error: Database error - " + e.getMessage();
+			return Response.error("Database error - " + e.getMessage(), "DB_ERROR");
 		} catch (IllegalArgumentException e) {
-			return "Error: " + e.getMessage();
+			return Response.error(e.getMessage(), "ILLEGAL_ARGUMENT");
 		}
 	}
 
-	public UserDTO getUser(String username) {
+	public Response<UserDTO> getUser(String username) {
 		try {
-			return userService.getUser(username);
+			UserDTO user = userService.getUser(username);
+			if (user != null) {
+				return Response.success("User found", user);
+			} else {
+				return Response.error("User not found", "USER_NOT_FOUND");
+			}
 		} catch (DatabaseException e) {
-			System.err.println("Database error: " + e.getMessage());
-			return null;
+			return Response.error("Database error - " + e.getMessage(), "DB_ERROR");
 		}
 	}
 }
