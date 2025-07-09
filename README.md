@@ -11,4 +11,5 @@ Litmus7 30 day tutorial
 - Added assignment 4(Upgraded)
 - Added assignment 5
 - Added assignment 6
+- Added assignment 7
 
