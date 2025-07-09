@@ -12,7 +12,7 @@ public class ProductDAOImplementation implements ProductDAO {
 	public void addProduct(Product product) throws ProductInsertException {
 		String sql = "INSERT INTO products (productId, name, category, price, stockQuantity) VALUES (?, ?, ?, ?, ?)";
 
-		try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
 			stmt.setInt(1, product.getProductId());
 			stmt.setString(2, product.getName());
@@ -32,7 +32,7 @@ public class ProductDAOImplementation implements ProductDAO {
 
 		String sql = "SELECT * FROM products WHERE productId = ?";
 
-		try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
 			stmt.setInt(1, productId);
 			ResultSet rs = stmt.executeQuery();
@@ -54,8 +54,8 @@ public class ProductDAOImplementation implements ProductDAO {
 		String sql = "SELECT * FROM products";
 		List<Product> products = new ArrayList<>();
 
-		try (Connection conn = DBConnection.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);
+		try (Connection connection = DBConnection.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);
 				ResultSet rs = stmt.executeQuery()) {
 
 			while (rs.next()) {
@@ -75,7 +75,7 @@ public class ProductDAOImplementation implements ProductDAO {
 
 		String sql = "UPDATE products SET name = ?, category = ?, price = ?, stockQuantity = ? WHERE productId = ?";
 
-		try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
 			stmt.setString(1, product.getName());
 			stmt.setString(2, product.getCategory());
@@ -99,7 +99,7 @@ public class ProductDAOImplementation implements ProductDAO {
 
 		String sql = "DELETE FROM products WHERE productId = ?";
 
-		try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection connection = DBConnection.getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
 			stmt.setInt(1, productId);
 			int affectedRows = stmt.executeUpdate();
