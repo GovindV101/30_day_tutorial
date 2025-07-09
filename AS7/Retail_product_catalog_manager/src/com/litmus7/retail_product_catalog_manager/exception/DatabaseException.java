@@ -1,0 +1,11 @@
+package com.litmus7.retail_product_catalog_manager.exception;
+
+public class DatabaseException extends Exception {
+    public DatabaseException(String message) {
+        super(message);
+    }
+    
+    public DatabaseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
